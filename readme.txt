@@ -31,8 +31,8 @@ Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit has
 
 
 == Screenshots ==
-1. https://s3.amazonaws.com/newsify/static/integration-wordpress.png
-2. https://s3.amazonaws.com/newsify/static/admin-wordpress.png
+1. Example integration. `/assets/integration-wordpress.png`
+2. Narndo Admin Panel. Configure your custom audio player. `/assets/admin-wordpress.png`
 
 == Changelog ==
 
