@@ -7,7 +7,6 @@ Requires at least: 3.5
 Tested up to: 3.9
 Stable tag: 1.0
 
-
 == Description ==
 
 Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit hast – und lass sie Dir unterwegs vorlesen.
