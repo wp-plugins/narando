@@ -1,5 +1,5 @@
 === narando ===
-Contributors: narndo, pkleimeyer, Philip Kkleimeyer
+Contributors: narndo, Philip Kleimeyer
 Tags: audio, web player, narrator, news, articles, text to speech, tts
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
