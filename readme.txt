@@ -7,7 +7,7 @@ Requires at least: 3.5
 Tested up to: 3.9
 Stable tag: 1.0
 
-Überführe deine Artikel und Posts in qualitativ hochwertige Sprachbeiträge, die auf deiner Webseite und in der narando-App abgespielt werden können.
+Überführe deine Artikel in qualitativ hochwertige Sprachbeiträge, die auf deiner Webseite und in der narando-App abgespielt werden können.
 
 == Description ==
 
