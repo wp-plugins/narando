@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.1
+Stable tag: 1.2
 
 
 == Description ==
@@ -35,6 +35,9 @@ Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit has
 2. https://s3.amazonaws.com/newsify/static/admin-wordpress.png
 
 == Changelog ==
+
+= 1.2 =
+- Demo modus
 
 = 1.1 =
 - Pre- and Post-Text

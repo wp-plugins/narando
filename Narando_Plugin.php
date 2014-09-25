@@ -15,6 +15,7 @@ class Narando_Plugin extends Narando_LifeCycle {
             //'_version' => array('Installed Version'), // Leave this one commented-out. Uncomment to test upgrades.
 			
 			'NRAutoplay' => array(__('Autoplay', 'narando-plugin'), 'true', 'false'),
+			'NRDemo' => array(__('Demo Modus', 'narando-plugin'), 'false', 'true'),
 			'NRPosition' => array(__('Position des Players', 'narando-plugin'), 'Before Post', 'After Post'),
 			'NRPlayerMobile' => array(__(' Player für Mobile-Endgeräte anzeigen lassen (reagiert nur bei Mobilen-Endgeräten)', 'narando-plugin'), 'true', 'false'),
 			'NRColorControls' => array(__(' Farbe für die Controls (#e74c3c)', 'narando-plugin')),
@@ -109,6 +110,11 @@ class Narando_Plugin extends Narando_LifeCycle {
 		
 		if ( is_single() ) {
 			$permalink = get_permalink($wp_query->post->ID); //get post link
+			
+			$demo = $this->getOption("NRColorControls");
+			if ($demo == "true") {
+				$permalink = "http://t3n.de/news/musik-am-arbeitsplatz-539087/";
+			}
 			
 			$autoplay = "";
 			if ("true" == $this->getOption("NRAutoplay")) {
