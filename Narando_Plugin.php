@@ -19,8 +19,10 @@ class Narando_Plugin extends Narando_LifeCycle {
 			'NRPlayerMobile' => array(__(' Player für Mobile-Endgeräte anzeigen lassen (reagiert nur bei Mobilen-Endgeräten)', 'narando-plugin'), 'true', 'false'),
 			'NRColorControls' => array(__(' Farbe für die Controls (#e74c3c)', 'narando-plugin')),
 			'NRColorBackground' => array(__(' Farbe für die Hintergrund (#ffffff)', 'narando-plugin')),
-			'NRColorText' => array(__(' Farbe für die Text (#666666)', 'narando-plugin')),
-			'NRColorFrame' => array(__(' Farbe für die Text (#cbcbcb)', 'narando-plugin'))
+			'NRColorText' => array(__(' Farbe für den Text (#666666)', 'narando-plugin')),
+			'NRColorFrame' => array(__(' Farbe für den Rahmen (#cbcbcb)', 'narando-plugin')),
+			'NRPreText' => array(__(' Pre-Text (can be HTML)', 'narando-plugin')),
+			'NRPostText' => array(__(' Post-Text (can be HTML)', 'narando-plugin'))
         );
     }
 
@@ -118,10 +120,28 @@ class Narando_Plugin extends Narando_LifeCycle {
 			$data_txt_color = $this->getOption("NRColorText");
 			$data_fr_color = $this->getOption("NRColorFrame");
 			
+			$data_fg_color = str_replace("#",'',$data_fg_color);
+			$data_bg_color = str_replace("#",'',$data_bg_color);
+			$data_txt_color = str_replace("#",'',$data_txt_color);
+			$data_fr_color = str_replace("#",'',$data_fr_color);
+			
+			$data_pre_text = $this->getOption("NRPreText");
+			$data_post_text = $this->getOption("NRPostText");
+			
+			if (!empty($data_pre_text)) {
+				$data_pre_text = sprintf('<div class="narando-text-container">%s</div>', stripcslashes($data_pre_text));
+			}
+			
+			if (!empty($data_post_text)) {
+				$data_post_text = sprintf('<div class="narando-text-container">%s</div>', stripcslashes($data_post_text));
+			}
+			
+			$data_hide_element = ".narando-text-container";
+			
 			if ("Before Post" == $this->getOption("NRPosition")) {
-				$content = sprintf('<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s></div>%s', $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color ,$autoplay, $content);
+				$content = sprintf('%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" data-hide-element="%s" %s></div>%s%s', $data_pre_text, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $data_hide_element ,$autoplay, $data_post_text, $content);
 			} else {
-				$content = sprintf('%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s></div>', $content, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $autoplay);
+				$content = sprintf('%s%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" data-hide-element="%s" %s></div>%s', $content, $data_pre_text, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $data_hide_element, $autoplay, $data_post_text);
 			}
 		}
 
