@@ -111,7 +111,7 @@ class Narando_Plugin extends Narando_LifeCycle {
 		if ( is_single() ) {
 			$permalink = get_permalink($wp_query->post->ID); //get post link
 			
-			$demo = $this->getOption("NRColorControls");
+			$demo = $this->getOption("NRDemo");
 			if ($demo == "true") {
 				$permalink = "http://t3n.de/news/musik-am-arbeitsplatz-539087/";
 			}
