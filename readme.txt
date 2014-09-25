@@ -1,27 +1,16 @@
 === narando ===
-Contributors: narndo, Philip Kleimeyer
+Contributors: narndo, pkleimeyer, Philip Kkleimeyer
 Tags: audio, web player, narrator, news, articles, text to speech, tts
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.0
+Stable tag: 1.3
 
-Überführe deine Artikel in qualitativ hochwertige Sprachbeiträge, die auf deiner Webseite und in der narando-App abgespielt werden können.
 
 == Description ==
 
-Binde dieses Plug-in auf deiner Webseite bzw. deinem Blog ein, um deine Artikel und Posts für dein Publikum (mobil) hörbar zu machen! 
-
-Lass deine Artikel jetzt von menschlichen Sprechern vorlesen! 
-
-Natürlich dauert es eine gewisse Zeit, bis eine solche Audio-Version verfügbar ist. Außerdem müssen wir unsere Sprecher effizient einsetzen und können daher nur ausgesuchte Artikel einsprechen.
-
-Jedoch kannst du auch selbst als Sprecher aktiv werden! Nutze daher deine eigene Stimme, um deine Artikel und Posts mit Emotionen und Ausdruck zu füllen. Sende uns hierfür bitte eine Sprecheranfrage unter <http://www.narando.com/narrators>
-
-Für genauere Informationen über das narando-Abspiel-Plug-in bzw. das narando Wordpress-Plug-in und bei Fragen kannst du uns gerne unter [contact@narando.de][1] kontaktieren. Weitere Informationen findest du unter <http://www.narando.com/publisher>
-
-[1]: mailto:contact@narando.de
+Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit hast – und lass sie Dir unterwegs vorlesen.
 
 == Installation ==
 
@@ -42,10 +31,19 @@ Für genauere Informationen über das narando-Abspiel-Plug-in bzw. das narando W
 
 
 == Screenshots ==
-1. Example integration.
-2. Narndo Admin Panel. Configure your custom audio player.
+1. https://s3.amazonaws.com/newsify/static/integration-wordpress.png
+2. https://s3.amazonaws.com/newsify/static/admin-wordpress.png
 
 == Changelog ==
+
+= 1.3 =
+- Bugfixes
+
+= 1.2 =
+- Demo modus
+
+= 1.1 =
+- Pre- and Post-Text
 
 = 1.0 =
 - Initial Revision
