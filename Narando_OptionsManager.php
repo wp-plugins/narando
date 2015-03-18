@@ -345,30 +345,39 @@ class Narando_OptionsManager {
      * @param  $savedOptionValue string current value for $aOptionKey
      * @return void
      */
-    protected function createFormControl($aOptionKey, $aOptionMeta, $savedOptionValue) {
-        if (is_array($aOptionMeta) && count($aOptionMeta) >= 2) { // Drop-down list
-            $choices = array_slice($aOptionMeta, 1);
-            ?>
-            <p><select name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>">
+    protected function createFormControl($aOptionKey, $aOptionMeta, $savedOptionValue, $aOptionFormat = 'select') {
+	
+		if($aOptionKey == "NRPreText" || $aOptionKey == "NRPostText") {
+			?>
+            <p>
+				<textarea cols="50" rows="10" name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>"><?php echo esc_attr(stripcslashes($savedOptionValue)) ?></textarea>
+			</p>
             <?php
-                            foreach ($choices as $aChoice) {
-                $selected = ($aChoice == $savedOptionValue) ? 'selected' : '';
-                ?>
-                    <option value="<?php echo $aChoice ?>" <?php echo $selected ?>><?php echo $this->getOptionValueI18nString($aChoice) ?></option>
-                <?php
-            }
-            ?>
-            </select></p>
-            <?php
+		} else {
+			if (is_array($aOptionMeta) && count($aOptionMeta) >= 2) { // Drop-down list
+	            $choices = array_slice($aOptionMeta, 1);
+	            ?>
+	            <p><select name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>">
+	            <?php
+	                            foreach ($choices as $aChoice) {
+	                $selected = ($aChoice == $savedOptionValue) ? 'selected' : '';
+	                ?>
+	                    <option value="<?php echo $aChoice ?>" <?php echo $selected ?>><?php echo $this->getOptionValueI18nString($aChoice) ?></option>
+	                <?php
+	            }
+	            ?>
+	            </select></p>
+	            <?php
 
-        }
-        else { // Simple input field
-            ?>
-            <p><input type="text" name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>"
-                      value="<?php echo esc_attr($savedOptionValue) ?>" size="50"/></p>
-            <?php
+	        }
+	        else { // Simple input field
+	            ?>
+	            <p><input type="text" name="<?php echo $aOptionKey ?>" id="<?php echo $aOptionKey ?>"
+	                      value="<?php echo esc_attr($savedOptionValue) ?>" size="50"/></p>
+	            <?php
 
-        }
+	        }
+		}
     }
 
     /**
