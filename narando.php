@@ -2,7 +2,7 @@
 /*
    Plugin Name: narando
    Plugin URI: http://wordpress.org/extend/plugins/narando/
-   Version: 1.3
+   Version: 1.4
    Author: Philip Kkleimeyer, narando
    Description: Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit hast – und lass sie Dir unterwegs vorlesen.
    Text Domain: narando

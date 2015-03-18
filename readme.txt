@@ -5,12 +5,15 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.3
+Stable tag: 1.4
 
 
 == Description ==
 
 Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit hast – und lass sie Dir unterwegs vorlesen.
+
+= Ihre Artikel vertont? =
+Treten Sie mit uns in Kontakt auf http://www.narando.com oder senden Sie uns eine E-Mail an contact [at] narando.de
 
 == Installation ==
 
@@ -36,11 +39,17 @@ Merk Dir mit narando Online- und Printartikel, für die Du gerade keine Zeit has
 
 == Changelog ==
 
+= 1.4 =
+- Sprecher kann nun aus dem Player ausgeblendet werden
+- Margin Werte können festgelegt werden
+- SSL Support
+
 = 1.3 =
-- Bugfixes
+- Bug fixes
 
 = 1.2 =
-- Demo modus
+- Integrate narando player via shortcode inline in text
+
 
 = 1.1 =
 - Pre- and Post-Text
