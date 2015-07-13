@@ -4,8 +4,8 @@ Tags: audio, web player, narrator, news, articles, text to speech, tts
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 1.4
+Tested up to: 4.2
+Stable tag: 1.5
 
 
 == Description ==
@@ -38,6 +38,9 @@ Treten Sie mit uns in Kontakt auf http://www.narando.com oder senden Sie uns ein
 2. https://s3.amazonaws.com/newsify/static/admin-wordpress.png
 
 == Changelog ==
+
+= 1.5 =
+- Pre- und Post-Text wird beim laden des Plugins ausgeblendet.
 
 = 1.4 =
 - Sprecher kann nun aus dem Player ausgeblendet werden
