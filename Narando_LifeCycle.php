@@ -77,6 +77,9 @@ class Narando_LifeCycle extends Narando_InstallIndicator {
     }
 
     public function addActionsAndFilters() {
+	
+		
+	
     }
 
     /**

@@ -13,17 +13,21 @@ class Narando_Plugin extends Narando_LifeCycle {
         //  http://plugin.michael-simpson.com/?page_id=31
         return array(
             //'_version' => array('Installed Version'), // Leave this one commented-out. Uncomment to test upgrades.
-			
+			'NRShowDemoArticle' => array(__('Demo Artikel anzeigen', 'narando-plugin'), 'false', 'true'),
 			'NRAutoplay' => array(__('Autoplay', 'narando-plugin'), 'true', 'false'),
-			'NRPosition' => array(__('Position des Players', 'narando-plugin'), 'Before Post', 'After Post'),
-			'NRPlayerMobile' => array(__(' Player für Mobile-Endgeräte anzeigen lassen (reagiert nur bei Mobilen-Endgeräten)', 'narando-plugin'), 'true', 'false'),
-			'NRColorControls' => array(__(' Farbe für die Controls (#e74c3c)', 'narando-plugin')),
-			'NRColorBackground' => array(__(' Farbe für die Hintergrund (#ffffff)', 'narando-plugin')),
-			'NRColorText' => array(__(' Farbe für die Text (#666666)', 'narando-plugin')),
-			'NRColorFrame' => array(__(' Farbe für die Text (#cbcbcb)', 'narando-plugin'))
+			'NRPosition' => array(__('Position des Players:<br>Beispiel für den Shortcode:<br>[narando-player text-color="#ffff00" background-color="#000" controls-color="#ff0000" frame-color="#000BBB"]', 'narando-plugin'), 'Before Post', 'After Post', 'Shortcode [narando-player]'),
+			'NRPlayerMobile' => array(__('Player für Mobile-Endgeräte anzeigen lassen (reagiert nur bei Mobilen-Endgeräten)', 'narando-plugin'), 'true', 'false'),
+			'NRColorControls' => array(__('Farbe für die Controls (#e74c3c)', 'narando-plugin')),
+			'NRColorBackground' => array(__('Farbe für den Hintergrund (#ffffff)', 'narando-plugin')),
+			'NRColorText' => array(__('Farbe für den Text (#666666)', 'narando-plugin')),
+			'NRColorFrame' => array(__('Farbe für den Rahmen (#cbcbcb)', 'narando-plugin')),
+			'NRHideSpeaker' => array(__('Sprecher im Player anzeigen', 'narando-plugin'), 'true', 'false'),
+			'NRCSSStyle' => array(__('CSS-Style für den Player (z.B. margin-top: 20px; margin-bottom:20px;)', 'narando-plugin')),
+			'NRPreText' => array(__('Pre-Text (auch HTML möglich)', 'narando-plugin')),
+			'NRPostText' => array(__('Post-Text (auch HTML möglich)', 'narando-plugin'))
         );
     }
-
+//
 //    protected function getOptionValueI18nString($optionValue) {
 //        $i18nValue = parent::getOptionValueI18nString($optionValue);
 //        return $i18nValue;
@@ -84,9 +88,12 @@ class Narando_Plugin extends Narando_LifeCycle {
     }
 
     public function addActionsAndFilters() {
-
+		//include_once('Narando_PlayerShortCode.php');
+		//$sc = new Narando_PlayerShortCode();
+		//$sc->register('narando-player');
 		
-
+		add_shortcode('narando-player', array($this, 'doPlayersShortcode'));
+		
         // Add options administration page
         // http://plugin.michael-simpson.com/?page_id=47
         add_action('admin_menu', array(&$this, 'addSettingsSubMenuPage'));
@@ -98,8 +105,28 @@ class Narando_Plugin extends Narando_LifeCycle {
 		
     }
 
+	
+
+	public function is_ssl() {
+	    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') { return true; } 
+		return false;
+	}
+
 	public function registerNarandoScript() {
-		wp_enqueue_script( 'narando-player', esc_url_raw( 'http://narando.com/assets/narando.player.js' ));		
+		if (is_ssl()) {
+			wp_enqueue_script( 'narando-player', esc_url_raw( 'https://s3.amazonaws.com/newsify/static/narando.player.min.js' ));		
+		} else {
+			wp_enqueue_script( 'narando-player', esc_url_raw( 'http://narando.com/assets/narando.player.js' ));		
+		}
+	}
+	
+	function startsWith($haystack, $needle) {
+	    // search backwards starting from haystack length characters from the end
+	    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+	}
+	function endsWith($haystack, $needle) {
+	    // search forward starting from end minus needle length characters
+	    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
 	}
 	
 	public function narandoPlayerContainer($content='' ) {
@@ -112,20 +139,107 @@ class Narando_Plugin extends Narando_LifeCycle {
 			if ("true" == $this->getOption("NRAutoplay")) {
 				$autoplay = "autoplay";
 			}
-				
+			
+			if ("true" == $this->getOption("NRShowDemoArticle")) {
+				$permalink = "http://t3n.de/news/t3n-vorlesen-lassen-narando-570972/";
+			}
+			
 			$data_fg_color = $this->getOption("NRColorControls");
 			$data_bg_color = $this->getOption("NRColorBackground");
 			$data_txt_color = $this->getOption("NRColorText");
 			$data_fr_color = $this->getOption("NRColorFrame");
 			
+			$data_fg_color = str_replace("#",'',$data_fg_color);
+			$data_bg_color = str_replace("#",'',$data_bg_color);
+			$data_txt_color = str_replace("#",'',$data_txt_color);
+			$data_fr_color = str_replace("#",'',$data_fr_color);
+			
+			$data_pre_text = $this->getOption("NRPreText");
+			$data_post_text = $this->getOption("NRPostText");
+			
+			$data_css_style = $this->getOption("NRCSSStyle");
+			
+			$data_hide_speaker = "";
+			
+			if ("false" == $this->getOption("NRHideSpeaker")) {
+				$data_hide_speaker = 'data-hide-speaker="true"';
+			}
+			
+			if (!empty($data_pre_text)) {
+				$data_pre_text = sprintf('<div class="narando-text-container" style="display:none;">%s</div>', stripcslashes($data_pre_text));
+			}
+			
+			if (!empty($data_post_text)) {
+				$data_post_text = sprintf('<div class="narando-text-container" style="display:none;">%s</div>', stripcslashes($data_post_text));
+			}
+			
+			$data_hide_element = ".narando-text-container";
+			
 			if ("Before Post" == $this->getOption("NRPosition")) {
-				$content = sprintf('<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s></div>%s', $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color ,$autoplay, $content);
-			} else {
-				$content = sprintf('%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s></div>', $content, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $autoplay);
+				$content = sprintf('%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s data-hide-element="%s" style="%s" %s></div>%s%s', $data_pre_text, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $data_hide_speaker, $data_hide_element, $data_css_style, $autoplay, $data_post_text, $content);
+			} else if("After Post" == $this->getOption("NRPosition")) {
+				$content = sprintf('%s%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s data-hide-element="%s" style="%s" %s></div>%s', $content, $data_pre_text, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $data_hide_speaker, $data_hide_element, $data_css_style, $autoplay, $data_post_text);
 			}
 		}
 
 		return $content;
+	}
+	
+	public function doPlayersShortcode($attr) {
+		
+		$permalink = get_permalink($wp_query->post->ID); //get post link
+		
+		$autoplay = "";
+		if ("true" == $this->getOption("NRAutoplay")) {
+			$autoplay = "autoplay";
+		}
+		
+		if ("true" == $this->getOption("NRShowDemoArticle")) {
+			$permalink = "http://t3n.de/news/t3n-vorlesen-lassen-narando-570972/";
+		}
+		
+		$data_fg_color = $this->getOption("NRColorControls");
+		$data_bg_color = $this->getOption("NRColorBackground");
+		$data_txt_color = $this->getOption("NRColorText");
+		$data_fr_color = $this->getOption("NRColorFrame");
+
+		foreach ($attr as $key => $value) {
+			if ($this->startsWith($value, 'text-color')) $data_txt_color = str_replace('"', '', str_replace("text-color=", "", $value));
+			if ($this->startsWith($value, 'background-color')) $data_bg_color = str_replace('"', '', str_replace("background-color=", "", $value));
+			if ($this->startsWith($value, 'controls-color')) $data_fg_color = str_replace('"', '', str_replace("controls-color=", "", $value));
+			if ($this->startsWith($value, 'frame-color')) $data_fr_color = str_replace('"', '', str_replace("frame-color=", "", $value));
+		}
+		
+		
+		$data_fg_color = str_replace("#",'',$data_fg_color);
+		$data_bg_color = str_replace("#",'',$data_bg_color);
+		$data_txt_color = str_replace("#",'',$data_txt_color);
+		$data_fr_color = str_replace("#",'',$data_fr_color);
+		
+		$data_pre_text = $this->getOption("NRPreText");
+		$data_post_text = $this->getOption("NRPostText");
+		
+		$data_css_style = $this->getOption("NRCSSStyle");
+		
+		$data_hide_speaker = "";
+		
+		if ("false" == $this->getOption("NRHideSpeaker")) {
+			$data_hide_speaker = 'data-hide-speaker="true"';
+		}
+		
+		if (!empty($data_pre_text)) {
+			$data_pre_text = sprintf('<div class="narando-text-container" style="display:none;">%s</div>', stripcslashes($data_pre_text));
+		}
+		
+		if (!empty($data_post_text)) {
+			$data_post_text = sprintf('<div class="narando-text-container" style="display:none;">%s</div>', stripcslashes($data_post_text));
+		}
+		
+		$data_hide_element = ".narando-text-container";
+		
+		$content = sprintf('%s<div class="narando-player" data-canonical="%s" data-floating="mobile" data-fg-color="%s" data-bg-color="%s" data-txt-color="%s" data-fr-color="%s" %s data-hide-element="%s" style="%s" %s></div>%s%s', $data_pre_text, $permalink, $data_fg_color, $data_bg_color, $data_txt_color, $data_fr_color, $data_hide_speaker, $data_hide_element, $data_css_style, $autoplay, $data_post_text, $content);
+		
+	    return $content;
 	}
 
 }
